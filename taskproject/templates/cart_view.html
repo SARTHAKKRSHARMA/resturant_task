@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart View</title>
+</head>
+<body>
+    <h1>Cart View</h1>
+    {% if length_of_cart == 0 %}
+        <h1>No item in your cart</h1>
+    {% else %}
+        <ol>
+            {% for item in cart %}
+                <h1><li>{{item.food_item.item_name}}      {{item.quantity}}       {{item.food_item.price}}     {{item.price}}</li></h1>
+            {% endfor %}
+        </ol>
+        <H2>Total Price = Rs. {{price}}</H2>
+        {% if discount %}
+            <h2>Total discount = -Rs. {{total_discount}}</h2>
+            <h2>Final Amount = Rs. {{discount.total_cost}}</h2>
+        {% endif %}
+        {% if length == 0 %}
+            <h2>Before Proceeding futher add your address</h2>
+        {% else %}
+        <a href="/empty/cart">Empty Cart</a>
+        
+        <form action="/cart/coupon" method="post">
+            {% csrf_token %}
+            <input type="text" name="coupon_code">
+            <button>Apply Coupon</button>
+        </form>
+        {% if errors %}
+            {{errors}}
+        {% endif %}
+        <form action="/cart/" method="post">
+            {% csrf_token %}
+            <label for="">Address</label>
+            <select name="address" id="">
+                {% for add in address%}
+                    <option value="{{add.id}}">{{add.address_line_1}}</option>
+                {% endfor %}
+            </select>
+            <button>Place Order</button>
+        </form>    
+        {% endif %}
+    {% endif %}
+
+</body>
+</html>

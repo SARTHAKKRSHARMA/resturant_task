@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Meals</title>
+</head>
+<body>
+    <h1>Meals</h1>
+    {% if length == 0 %}
+        <h3>No meals available</h3>
+    {% else %}
+    <ol>
+        {% for meal in meals %}
+            <li>
+                <a href=/meal/{{meal.id}}/>{{meal.meal_name}}</a>
+            </li>    
+        {% endfor %}
+    </ol>
+    {% endif %}
+    {% if type_of_user == "staff" %}
+    <h1>Create Meal</h1>
+    <form action="" method="post">
+        {{meal_form.as_p}}
+        {% csrf_token %}
+        <button>Create</button>
+    </form>
+    {% endif %}
+    
+</body>
+</html>

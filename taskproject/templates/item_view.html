@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{food_item}}</title>
+</head>
+<body>
+    <h1>{{food_item.item_name}}</h1>
+    {% if food_item.description %}
+        <h3>{{food_item.description}}</h3>
+    {% endif %}
+    <h3>Price per plate = Rs. {{food_item.price}}</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="">Quantity</label>
+        <select name="quantity">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <button>Add To Cart</button>
+    </form>
+    
+</body>
+</html>

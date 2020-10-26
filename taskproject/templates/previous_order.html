@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Order</title>
+</head>
+<body>
+    <h1>Previous Order(s)</h1>
+    {% if total_order == 0 %}
+        <h2>You haven't placed any order yet</h2>
+    {% else %}
+        <ol>
+            {% for o in order %}
+                <li>
+                    <h2>Status = {% if o.order_status == 'del' %}Delivered {% else %} Not Delivered {% endif %}</h2>
+                    <h2>Address = {{o.address.address_line_1}}</h2>
+                    <h2>Item Ordered: 
+                        <ol>
+                            {% for item in o.item_ordered.all %}
+                                <li>
+                                    {{item.item_name}}
+                                </li>
+                            {% endfor %}
+                        </ol> 
+                    </h2>
+                    <h2>Total Cost : Rs. {{o.total_cost}}</h2>
+                    <h2>Order Time : {{o.time_of_order}}</h2>
+                </li>
+            {% if o.order_status == 'del' %}
+                <h2>Please provide your valuable <a href="/feedback/{{o.id}}">feedback</a></h2>
+            {% endif %}
+            {% endfor %}
+        </ol>
+    {% endif %}
+</body>
+</html>

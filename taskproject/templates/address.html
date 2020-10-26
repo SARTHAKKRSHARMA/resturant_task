@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addresses</title>
+</head>
+<body>
+    <ol>
+        {% for address in addresses %}
+           <li>
+                <h2>Type of address: {{address.type_of_address}}</h2>
+                <h2>Line 1 : {{address.address_line_1}}</h2>
+                {% if address.address_line_2 %}
+                <h2>Line 2 : {{address.address_line_2}}</h2>
+                {% endif %}
+                <h2>City : {{address.city}}</h2>
+                <h2>State : {{address.state}}</h2>
+                <h2>Pincode : {{address.postal_code}}</h2>
+           </li>           
+        {% endfor %}
+    </ol>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{address_form.as_p}}
+        <button>Add Address</button>
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    {% if not is_authenticated %}
+    <a href="/register/">Register</a>
+    <a href="/login/">Login</a>
+    {% else %}
+    <a href="/cart/">Cart</a>
+    <a href="/previous/order">Previous Order</a>
+    <a href="/view/meal">Meals And Combo Offers</a>
+    <a href="/view/coupons">Coupons</a>
+    <a href="/addresses/">Addresses</a>
+    <a href="/logout/">Logout</a>
+    {% if type_of_customer == "normal" %}
+        <p>Go <a href="/premium/">Premium</a> for more discounts and offers.</p>
+    {% endif %}
+    <form action="/search/item" method="post">
+        {% csrf_token %}
+        <input type="text" name="search">
+        <button>Search</button>
+    </form>
+
+    <form action="/filter/price" method="post">
+        {% csrf_token %}
+        <label for="">Price</label>
+        <select name="max_price" id="">
+            <option value="10">Under 10</option>
+            <option value="20">Under 20</option>
+            <option value="50">Under 50</option>
+            <option value="100">Under 100</option>
+        </select>
+        <button>Filter</button>
+    </form>
+    <ol>
+        {% for category in food_categories %}
+            <h3><li><a href="/{{category}}">{{category}}</a></li></h3>
+            {% if category.category.lower == food_category.lower %}
+                <ol>
+                    {% for food_item in food_items %}
+                        <h4><li><a href="item/{{food_item.item_name}}/">{{food_item}}</a></li></h4>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        {% endfor %}
+    </ol>
+    {% endif %}
+</body>
+</html>

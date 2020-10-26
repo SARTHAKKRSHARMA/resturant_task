@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Meals</title>
+</head>
+<body>
+    <h1>Here is the list of meal</h1>
+    <ol>
+        {% for meal in meals %}
+            <li>
+                <a href="/meal/{{meal.id}}">{{meal.meal_name}}</a>
+            </li>
+        {% endfor %}
+    </ol>
+    <h1>Fill this form to create new meal</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{meal_form.as_p}}
+        <button>Create Meal</button>
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Coupons</title>
+</head>
+<body>
+    <h1>Here is the list of active coupons</h1>
+    <ol>
+        {% for coupon in coupons %}
+            <li>
+                <h3>Coupon Name = {{coupon.coupon_name}}</h3>
+                <h3>Coupon Description = {{coupon.coupon_description}}</h3>
+                {% if type_of_customer == "normal" %}
+                    {% if coupon.type_of_user == "premium" %}
+                        <h3>To get coupon code go <a href="/premium/">Premium</a></h3>
+                    {% else %}
+                        <h3>Coupon Code = {{coupon.coupon_code}}</h3>
+                    {% endif %}
+                {% else %}
+                    <h3>Coupon Code = {{coupon.coupon_code}}</h3>
+                {% endif %}
+                <h3>Percent Discount = {{coupon.percent_discount}}%</h3>
+                <h3>Expiry Date = {{coupon.expiry_date}}</h3>
+            </li>
+        {% endfor %}
+    </ol>
+
+    
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Item</title>
+</head>
+<body>
+    <h1>Meal Item</h1>
+    {% if length == 0 %}
+        <p>No item in meal</p>
+    {% else %}
+        <ol>
+            {% for item in meal.meal.all %}
+                <li>
+                    {{item.quantity}} x {{item.food_item.item_name}} = Rs {{item.price}}
+                </li>
+                <a href="/item/remove/{{item.id}}">Remove</a>
+            {% endfor %}
+        </ol>
+        <p>Total Cost = Rs. {{meal.price}}</p>
+    {% endif %}
+    <h2>To add more item into it fill this form</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{meal_item_form.as_p}}
+        <button>Add Item</button>
+    </form>
+</body>
+</html>
