@@ -12,7 +12,7 @@
     {% else %}
         <ol>
             {% for item in cart %}
-                <h1><li>{{item.food_item.item_name}}      {{item.quantity}}       {{item.food_item.price}}     {{item.price}}</li></h1>
+                <h1><li>{{item.food_item.item_name}}      {{item.quantity}}   x    {{item.food_item.price}}  =   Rs.{{item.price}}</li></h1>
             {% endfor %}
         </ol>
         <H2>Total Price = Rs. {{price}}</H2>
