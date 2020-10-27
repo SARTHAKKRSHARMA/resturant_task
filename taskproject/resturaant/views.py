@@ -12,22 +12,26 @@ from decimal import *
 # Create your views here.
 def homepage(request, food_category = None): 
     if(request.user.is_authenticated):
-        customer = request.user.users.get()
-        if(customer.type_of_user == "staff"):
-            return HttpResponseRedirect("/create_coupons/")
-        food_categories = Food_Category.objects.all()
-        food_items = None
-        if (food_category):
-            try:
-                category = Food_Category.objects.get(category__iexact=food_category)
-                food_items = category.food_item.all()
-            except:
-                return HttpResponse("Following Category Doesn't exist")
-        type_of_customer = Customer.objects.get(user=customer).type_of_customer
-        return render(request, "homepage.html", {'is_authenticated' : True,
-                                                 'type_of_customer': type_of_customer, 
-                                                 'food_categories' : food_categories,                                                 'food_category' : food_category,
-                                                 'food_items' : food_items})
+        try:
+            customer = request.user.users.get()
+            if(customer.type_of_user == "staff"):
+                return HttpResponseRedirect("/create_coupons/")
+            food_categories = Food_Category.objects.all()
+            food_items = None
+            if (food_category):
+                try:
+                    category = Food_Category.objects.get(category__iexact=food_category)
+                    food_items = category.food_item.all()
+                except:
+                    return HttpResponse("Following Category Doesn't exist")
+            type_of_customer = Customer.objects.get(user=customer).type_of_customer
+            return render(request, "homepage.html", {'is_authenticated' : True,
+                                                    'type_of_customer': type_of_customer, 
+                                                    'food_categories' : food_categories,                                                 'food_category' : food_category,
+                                                    'food_items' : food_items})
+        except:
+            return HttpResponseRedirect('/admin/')
+
     else:
         return render(request, "homepage.html", { 'is_authenticated' : False})        
 
