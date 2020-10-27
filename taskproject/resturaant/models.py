@@ -19,6 +19,7 @@ class Food_Items (models.Model):
     description = models.TextField(blank = True)
     image = models.ImageField(blank = True)
     price = models.DecimalField(max_digits=15, decimal_places=2)
+    quantity_available = models.IntegerField(default =50)
     def __str__(self):
         return self.item_name
 
@@ -91,6 +92,14 @@ class Order (models.Model):
 
     def __str__(self):
         return self.user.user.user.username
+
+
+# class ItemOrdered (models.Model):
+#     order = models.ForeignKey(Order, on_delete = models.CASCADE, related_name = "item_ordered")
+#     food_item = models.ForeignKey(Food_Items, on_delete=  models.CASCADE, related_name = "item_name")
+#     quantity = models.IntegerField()
+#     price = models.DecimalField(max_digits=14, decimal_places=2)
+
 
 class Feedback (models.Model):
     FEEDBACK = (

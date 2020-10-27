@@ -201,10 +201,21 @@ def cart_view(request, coupon = None):
         except:
             order = Order(user = customer, address = address, total_cost = price)
         order.save()
+
         for item in cart:
-            cart = Cart.objects.get(id = item.id)
-            cart.status = 'done'
-            cart.save()
+            available_quantity = item.food_item.quantity_available
+            quantity_ordered = item.quantity
+            if (available_quantity - quantity_ordered < 0 ):
+                return HttpResponse("Order can't be placed as " + item.food_item.item_name + " is not available in sufficient quantity right now.")
+
+        for item in cart:
+            carts = Cart.objects.get(id = item.id)
+            carts.status = 'done'
+            carts.save()
+            food_item_id = carts.food_item.id
+            food_item = Food_Items.objects.get(id = food_item_id)
+            food_item.quantity_available -= carts.quantity 
+            food_item.save()
             order.item_ordered.add(item.food_item)
         try:
             discount = Discount.objects.get(user = customer)
