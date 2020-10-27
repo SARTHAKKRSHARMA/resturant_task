@@ -11,18 +11,25 @@
         <h3>{{food_item.description}}</h3>
     {% endif %}
     <h3>Price per plate = Rs. {{food_item.price}}</h3>
-    <form action="" method="post">
-        {% csrf_token %}
-        <label for="">Quantity</label>
-        <select name="quantity">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        <button>Add To Cart</button>
-    </form>
-    
+    {% if not today %}
+            <button disabled="disabled">Not available Today</button>
+    {% elif  food_item.start_time > time or food_item.end_time < time %}
+        <button disabled="disabled">Available today from {{food_item.start_time}} to {{food_item.end_time}}</button>
+    {% elif food_item.quantity_available == 0  %}
+        <button disabled="disabled">Not Available Right Now</button>
+    {% else %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <label for="">Quantity</label>
+            <select name="quantity">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button>Add To Cart</button>
+        </form>
+    {% endif %}
 </body>
 </html>

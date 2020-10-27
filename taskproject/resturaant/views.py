@@ -104,13 +104,23 @@ def user_logout(request):
         
 @login_required
 def item_view(request, food_item):
+    time = timezone.now().time()
+    weekday = timezone.now().weekday()
     user = request.user.users.get()
     if(user.type_of_user == "staff"):
         return HttpResponseRedirect("/create_coupons/")
     if (request.method == "GET"):
         try:
             food_item = Food_Items.objects.get(item_name = food_item)
-            return render(request, "item_view.html", {'food_item':food_item})
+            today = False
+            for x in food_item.days_of_avaibility.all():
+                if (int(x.day_of_the_week) == weekday):
+                    today = True
+                    break    
+            return render(request, "item_view.html", {'food_item':food_item,
+                                                    'time': time,
+                                                    'weekday' : weekday,
+                                                    'today': today})
         except:
             return HttpResponse("Following item isnt served by us")
     else:
@@ -370,6 +380,7 @@ def view_coupons(request):
     
 @login_required
 def view_meal(request):
+    time = timezone.now().time()
     user = request.user.users.get()
     if (user.type_of_user == "staff"):
         return HttpResponseRedirect("/create_coupons/")
@@ -380,7 +391,8 @@ def view_meal(request):
     else:
         meals = Meals.objects.all()
     return render(request, "view_meals.html", {'meals' : meals,
-                                               'type_of_customer' : type_of_customer})
+                                               'type_of_customer' : type_of_customer,
+                                               'time': time})
 
 @login_required
 def add_meal(request, id):
@@ -524,3 +536,15 @@ def google_login(request):
             return HttpResponseRedirect('/')
         except:
             return HttpResponseRedirect('/logout/')
+
+@login_required
+def show_available_item(request):
+    weekday = timezone.now().weekday()
+    day_of_week = DaysOfTheWeek.objects.filter(day_of_the_week = weekday)
+    print(day_of_week)
+    user = request.user.users.get()
+    if (user.type_of_user == "staff"):
+        return HttpResponseRedirect("/create_coupons/")
+    food_items = Food_Items.objects.filter(start_time__lte = timezone.now().time(), end_time__gte = timezone.now().time(), days_of_avaibility__in = day_of_week)
+    return render(request, 'show_available_item.html', {'food_items' : food_items,
+                                                        'weekday' : weekday})

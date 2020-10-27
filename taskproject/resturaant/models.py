@@ -3,6 +3,20 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 # Create your models here.
 
+class DaysOfTheWeek(models.Model):
+    CHOICES = (
+        ( "0", "Monday"),
+        ( "1", "Tuesday"),
+        ( "2", "Wednesday"),
+        ( "3", "Thursday"),
+        ( "4", "Friday"),
+        ( "5", "Saturday"),
+        ( "6", "Sunday")
+    )
+    day_of_the_week = models.CharField(max_length = 15, choices = CHOICES)
+    def __str__(self):
+        return self.day_of_the_week
+
 class Food_Category (models.Model):
     TYPE_OF_FOOD = (
         ("veg", "Vegetarian"),
@@ -19,6 +33,9 @@ class Food_Items (models.Model):
     description = models.TextField(blank = True)
     image = models.ImageField(blank = True)
     price = models.DecimalField(max_digits=15, decimal_places=2)
+    days_of_avaibility = models.ManyToManyField(to = DaysOfTheWeek)
+    start_time = models.TimeField(default = "08:00:00")
+    end_time = models.TimeField(default = "22:00:00")
     quantity_available = models.IntegerField(default =50)
     def __str__(self):
         return self.item_name
@@ -152,6 +169,8 @@ class Meals (models.Model):
     )
     meal_name = models.CharField(max_length=15, blank = True, null = True)
     type_of_user = models.CharField(max_length=20, choices=TYPE_OF_USER, default = 'premium')
+    meal_start_time = models.TimeField(default = "08:00:00")
+    meal_end_time = models.TimeField(default = "22:00:00")
     price = models.DecimalField(max_digits=14, decimal_places=2, default=0.00)
 
 class MealItem (models.Model):
@@ -160,5 +179,4 @@ class MealItem (models.Model):
     quantity = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=15, decimal_places=2, default = 0)
 
-    
     

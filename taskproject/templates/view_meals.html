@@ -21,13 +21,17 @@
                     </ol>
                 </li>
                 <h3>Total Price = Rs.{{meal.price}}</h3>
-                {% if meal.type_of_user == "both" or meal.type_of_user == type_of_customer %}
-                    <form action="/add/meal/{{meal.id}}" method="post">
-                        {% csrf_token %}
-                        <button>Add to Cart</button>
-                    </form>
-                {% else %}
-                    <h3>Go <a href="/premium/">premium</a> to get this meal.</h3>
+                {% if meal.meal_start_time > time or meal.meal_end_time < time %}
+                    <button disabled="disabled">Available from {{meal.meal_start_time}} to {{meal.meal_end_time}}</button>
+                {% else %}    
+                    {% if meal.type_of_user == "both" or meal.type_of_user == type_of_customer %}
+                        <form action="/add/meal/{{meal.id}}" method="post">
+                            {% csrf_token %}
+                            <button>Add to Cart</button>
+                        </form>
+                    {% else %}
+                        <h3>Go <a href="/premium/">premium</a> to get this meal.</h3>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         {% endfor %}

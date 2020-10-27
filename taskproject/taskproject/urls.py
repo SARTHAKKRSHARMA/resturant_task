@@ -20,7 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('social-auth/',include('social_django.urls', namespace='social')),
     path('',views.homepage),
-    path('<slug:food_category>',views.homepage),
+    path('<str:food_category>',views.homepage),
     path('register/', views.register),
     path('login/', views.user_login),
     path('logout/', views.user_logout),
@@ -41,5 +41,6 @@ urlpatterns = [
     path('item/remove/<int:id>', views.remove_meal_item),
     path('filter/price',views.filter_price),
     path('search/item',views.search_bar),
-    path('google/',views.google_login)
+    path('google/',views.google_login),
+    path('available/items/', views.show_available_item)
 ]

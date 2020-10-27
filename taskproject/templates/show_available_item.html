@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Item</title>
+</head>
+<body>
+    <h1>Item available right now</h1>
+    <ol>
+        {% for item in food_items %}
+                <li>
+                    <a href="/item/{{item.item_name}}/">{{item.item_name}}</a>
+                </li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

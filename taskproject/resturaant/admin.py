@@ -49,6 +49,7 @@ admin.site.register(Feedback)
 admin.site.register(Cart)
 admin.site.register(Coupons)
 admin.site.register(Discount)
+admin.site.register(DaysOfTheWeek)
 
 class MealInline(admin.TabularInline):
     model = MealItem
