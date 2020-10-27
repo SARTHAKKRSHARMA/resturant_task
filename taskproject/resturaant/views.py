@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
@@ -488,3 +489,23 @@ def search_bar(request):
     else:
         return HttpResponseRedirect("/")
         
+def google_login(request):
+    if (not request.user.is_authenticated):
+        return HttpResponseRedirect('/login/')
+    try:
+        user_of_websites = user_of_website.objects.get(user = request.user)
+        print(user_of_websites)
+        return HttpResponseRedirect('/')
+    except:
+        try:
+            user = User.objects.get(id = request.user.id)
+            print("User is: " + str(user))
+            user_of_websites = user_of_website(user = user, type_of_user = "customer")
+            user_of_websites.save()
+            print(user_of_websites)
+            customer = Customer(user = user_of_websites, type_of_customer = "normal")
+            print(customer)
+            customer.save()
+            return HttpResponseRedirect('/')
+        except:
+            return HttpResponseRedirect('/logout/')

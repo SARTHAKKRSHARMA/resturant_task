@@ -21,11 +21,15 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'xmfw^wzh)yg2i9jf&)3-@2wcq_6lp7gu-bm+pdz9x)kf^dvvio'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "186799023760-613s90fgm3tqn96b47oi0idvaliat73n.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "SD6TRSQlRtR8nHbOkLO2SRVg"
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','sarthak1235.pythonanywhere.com','mysite.com']
 
 
 EMAIL_HOST = 'smtp.sendgrid.net'
@@ -44,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'resturaant'
+    'resturaant',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -108,6 +113,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2'
+]
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -126,3 +136,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+LOGIN_REDIRECT_URL = "/google/"
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
