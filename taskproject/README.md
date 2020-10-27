@@ -1,9 +1,20 @@
+For setting up project
+
+pip install django=2.2
+pip install openpyxl
+pip install social-auth-django-app
+cd intp taskproject
+python manage.py runserver
+
+
 All the views in the this projects are listed here:
 
 "register/" To register user(both staff and customer),if registered as staff then you'll be able to login once your account is activated by admin
 
-"login/" For logging user
-
+"login/" For logging user,
+         if logging in using django form (available for both customer, staff), you will be redirected to "/" ,
+         google login is also available for customers only
+          
 "/" Depending on wether user is logged in or not
 
 "logout/" to log user out
